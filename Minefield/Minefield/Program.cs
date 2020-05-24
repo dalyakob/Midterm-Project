@@ -8,8 +8,13 @@ namespace Minefield
         {
 
             Console.WriteLine("Welcome to Minefield!");
-            var customMinefield = new CustomMinefield(5,10,10);
+
+            var customMinefield = new CustomMinefield(9,9,10);
+
             customMinefield.DisplayBoard();
+
+            Console.Write("\nWhat coords would you like to enter: ");
+            
         }
     }
 }
