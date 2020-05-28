@@ -36,6 +36,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomMinefield.cs" />
     <Compile Include="MinefieldClass.cs" />
+    <Compile Include="Beginner.cs" />
+    <Compile Include="Intermediate.cs" />
+    <Compile Include="Advanced.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

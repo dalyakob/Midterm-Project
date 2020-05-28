@@ -16,6 +16,7 @@ namespace Minefield
         public int Rows { get; set; }
         public int Columns { get; set; }
         public int Bombs { get; set; }
+        
 
         public char[,] HiddenBoard { get; set; } //hidden board has all the mines and values of adjacent tiles in it 
                                       //displays the board in a fancy way
@@ -277,7 +278,7 @@ namespace Minefield
     
     }
 }
-/*
+/*Adryenne
 *  ___Requires Different Sizes___
 *  beginner     9x9
 *  intermediate 16x16
