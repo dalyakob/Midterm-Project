@@ -11,6 +11,7 @@ namespace Minefield
         }
 
         // Declaring public variables
+      
         public char[,] Board { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
@@ -54,6 +55,13 @@ namespace Minefield
                 Console.WriteLine();
             }
         }
+        
+        private char[,] _hiddenBoard; //hidden board has all the mines and values of adjacent tiles in it 
+
+        public int[,] Cell { get; set; }
+        public int RowLocation { get; set; }
+        public int ColLocation { get; set; }
+
         public char[,] GenerateMinefield()
         {
             //initializing boards
@@ -95,8 +103,43 @@ namespace Minefield
                 else
                     i--;
             }
-
+  
             return Board;
+        }
+        public void SelectCell()
+        {
+            Cell = new int[RowLocation, ColLocation];
+           
+            Console.Write($"What would you link to do with ({Cell}): flag or reveal?");
+            var selectedCell = Console.ReadLine();
+            if(selectedCell == "flag")
+            {
+                //change value of Board to "!"
+                //set value of cell status to "flagged"- bool value? Enum?
+            }
+            else if(selectedCell =="reveal")
+            {
+                //change value of Board to cell index value for _hiddenBoard
+                //call this 'revealedCell'?
+                //set value of cell status to "revealed" bool value? Enum?
+            }
+        }
+
+        //I think this checks selected cell for bombs and returns bool value
+        public bool CheckCell()
+        {
+            //revealedCell  = cell value from _hiddenBoard;
+
+            if(revealedCell == "X")
+            {
+                Console.Write("You hit a mine!! GAME OVER!!");
+                //change game status to GameOver
+            }
+            else
+            {
+                //Continue playing
+            }
+            
         }
                                                          // row,column              B     R     T     L    BR    TL    TR    BL
         public void SetAdjacentValues(int row, int column) // 2,2 adjacent cells = 3,2 ; 2,3 ; 1,2 ; 2,1 ; 3,3 ; 1,1 ; 1,3 ; 3,1
@@ -231,15 +274,7 @@ namespace Minefield
             }
 
         }
-
-        //I think this checks selected cell for bombs and returns bool value
-        public bool CheckCell()
-        {
-            throw new NotImplementedException();
-        }
-
-       
-        
+    
     }
 }
 /*

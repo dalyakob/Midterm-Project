@@ -14,7 +14,10 @@ namespace Minefield
             customMinefield.DisplayBoard(customMinefield.HiddenBoard);
 
             Console.Write("\nWhat coords would you like to enter: ");
-            
+
+            var input= Console.ReadLine();
+
+           
         }
     }
 }
