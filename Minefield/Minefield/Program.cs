@@ -11,7 +11,7 @@ namespace Minefield
 
             var customMinefield = new CustomMinefield(10, 10, 10);
 
-            customMinefield.DisplayBoard(customMinefield.HiddenBoard);
+            customMinefield.DisplayBoard();
 
             Console.Write("\nWhat coords would you like to enter: ");
 
