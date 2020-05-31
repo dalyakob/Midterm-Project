@@ -15,15 +15,17 @@ namespace Minefield
 
         //useful properties
         public bool IsBomb { get; set; }
-        public int IsEmpty { get; set; }
         public bool IsRevealed { get; set; }
-        public bool Flagged { get; set; }
+        public bool IsFlagged { get; set; }
 
         public Cell(int rowEntry, int colEntry)
         {
             RowEntry = rowEntry;
             ColEntry = colEntry;
             Value = ' ';
+            IsBomb = false;
+            IsRevealed = false;
+            IsFlagged = false;
         }
 
         public char GetValue()
@@ -32,6 +34,8 @@ namespace Minefield
             {
                 return Value;
             }
+            else if (IsFlagged)
+                return '!';
             else
                 return '?';
         }
