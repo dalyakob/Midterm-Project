@@ -8,7 +8,6 @@ namespace Minefield
             Rows = 16;
             Columns = 16;
             Bombs = 40;
-            Board = GenerateMinefield();
         }
     }
 }
