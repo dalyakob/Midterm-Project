@@ -1,13 +1,9 @@
-﻿using System;
-namespace Minefield
+﻿namespace Minefield
 {
-    public class Intermediate : MinefieldClass
+    public class Intermediate
     {
         public Intermediate()
         {
-            Rows = 16;
-            Columns = 16;
-            Bombs = 40;
         }
     }
 }
