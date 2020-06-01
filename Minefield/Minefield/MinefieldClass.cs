@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Minefield
 {
-    public abstract class MinefieldClass 
+    public abstract class MinefieldClass
     {
         public MinefieldClass()
         {
-            _Board = new Cell[Rows, Columns];
+            
         }
 
         //Declaring public variables
@@ -41,7 +40,7 @@ namespace Minefield
 
             for (int i = 0; i < Rows; i++)
             {
-                if(i < 9)
+                if (i < 9)
                     Console.Write($" {i + 1} ".PadRight(4, '|'));
                 else
                     Console.Write($" {i + 1}".PadRight(4, '|'));
@@ -57,7 +56,20 @@ namespace Minefield
         }
 
         public void GenerateMinefield()
-        { 
+        {
+            //Generate board size
+            _Board =  new Cell[Rows, Columns];
+
+            //initialize board 
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+
+                    _Board[i, j] = new Cell();
+                }
+            }
+
             //Generate bombs in random unique positions in _HiddenBoard
             var random = new Random();
             for (int i = 0; i < Bombs; i++)
@@ -65,10 +77,10 @@ namespace Minefield
                 int x = random.Next(Rows);
                 int j = random.Next(Columns);
 
-                if (_Board[x,j].Value == 'X')
+                if (!(_Board[x, j].Value == 'X'))
                 {
                     _Board[x, j].Value = 'X';
-                    SetAdjacentValues(x,j);
+                    SetAdjacentValues(x, j);
                     _Board[x, j].IsBomb = true;
                 }
                 else
@@ -80,22 +92,28 @@ namespace Minefield
         //I think this checks selected cell for bombs and returns bool value
         public void CheckCell(int row, int column)
         {
-            _Board[row, column].IsRevealed = true;
-
-            if (_Board[row, column].IsBomb)
+            if (!_Board[row, column].IsFlagged)
             {
-                Console.Write("You hit a mine!! GAME OVER!!");
-                //change game status to GameOver
-                GameOver = true;
+                _Board[row, column].IsRevealed = true;
+
+                if (_Board[row, column].IsBomb)
+                {
+                    Console.WriteLine("You hit a mine... GAME OVER!!");
+                    //change game status to GameOver
+                    GameOver = true;
+                }
             }
-             //Continue playing
+            else
+                Console.WriteLine("You cannot reveal a flagged cell unless it is unflagged.");
+            
+            //Continue playing
         }
         public void SelectCell(int row, int col)
         {
-            if(!_Board[row, col].IsRevealed)
+            if (!_Board[row, col].IsRevealed)
             {
                 Console.Write($"What would you link to do with ({_Board[row, col].GetValue()}): flag or reveal?");
-                var selectedCell = Console.ReadLine();
+                var selectedCell = Console.ReadLine().ToLower();
                 if (selectedCell == "flag")
                 {
                     //change value of Board to "!"
@@ -115,13 +133,14 @@ namespace Minefield
             else
                 Console.WriteLine("That Cell has already been revealed please try again!");
         }
-                                                         // row,column              B     R     T     L    BR    TL    TR    BL
+
+        // row,column              B     R     T     L    BR    TL    TR    BL
         public void SetAdjacentValues(int row, int column) // 2,2 adjacent cells = 3,2 ; 2,3 ; 1,2 ; 2,1 ; 3,3 ; 1,1 ; 1,3 ; 3,1
         {
             //set adjacent values for...
 
             //all rows and columns in the middle of the board
-            if (row > 0 && column > 0  && row < Rows-1 && column < Columns-1)
+            if (row > 0 && column > 0 && row < Rows - 1 && column < Columns - 1)
             {
                 for (int i = row - 1; i <= row + 1; i++)
                 {
@@ -143,15 +162,15 @@ namespace Minefield
                     {
                         if (_Board[i, j].Value == ' ')
                             _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value> (char)48 && _Board[i, j].Value < (char)58)//ASCII
+                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
                             _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
                     }
                 }
             }
             //All columns on the BOTTOM row except for corners
-            else if (row == Rows-1 && column > 0 && column < Columns - 1)
+            else if (row == Rows - 1 && column > 0 && column < Columns - 1)
             {
-                for (int i = row-1; i <= row; i++)
+                for (int i = row - 1; i <= row; i++)
                 {
                     for (int j = column - 1; j <= column + 1; j++)
                     {
@@ -191,7 +210,7 @@ namespace Minefield
                 }
             }
             //Top Left Corner
-            else if (row == 0 && column == 0) 
+            else if (row == 0 && column == 0)
             {
                 for (int i = 0; i <= 1; i++)
                 {
@@ -205,11 +224,11 @@ namespace Minefield
                 }
             }
             //Top Right Corner 
-            else if (row == 0 && column == Columns-1) 
+            else if (row == 0 && column == Columns - 1)
             {
                 for (int i = 0; i <= 1; i++)
                 {
-                    for (int j = column-1; j <= column; j++)
+                    for (int j = column - 1; j <= column; j++)
                     {
                         if (_Board[i, j].Value == ' ')
                             _Board[i, j].Value = '1';
@@ -219,11 +238,11 @@ namespace Minefield
                 }
             }
             // Bottom Left Corner
-            else if (row == Rows-1 && column == 0) 
+            else if (row == Rows - 1 && column == 0)
             {
-                for (int i = row-1; i <= row; i++)
+                for (int i = row - 1; i <= row; i++)
                 {
-                    for (int j = column; j <= column+1; j++)
+                    for (int j = column; j <= column + 1; j++)
                     {
                         if (_Board[i, j].Value == ' ')
                             _Board[i, j].Value = '1';
@@ -233,11 +252,11 @@ namespace Minefield
                 }
             }
             // Bottom Right Corner
-            else if (row == Rows - 1 && column == Columns-1)
+            else if (row == Rows - 1 && column == Columns - 1)
             {
                 for (int i = row - 1; i <= row; i++)
                 {
-                    for (int j = column-1; j <= column; j++)
+                    for (int j = column - 1; j <= column; j++)
                     {
                         if (_Board[i, j].Value == ' ')
                             _Board[i, j].Value = '1';
@@ -248,7 +267,7 @@ namespace Minefield
             }
 
         }
-    
+
     }
 }
 /*
