@@ -1,7 +1,8 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minefield", "MInefield\MInefield.csproj", "{0AA6BE07-E8EB-445C-820A-A8EFE669B432}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MInefield", "MInefield\MInefield.csproj", "{0AA6BE07-E8EB-445C-820A-A8EFE669B432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,9 +10,15 @@ Global
 		Release|anycpu = Release|anycpu
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Debug|anycpu.ActiveCfg = Debug|anycpu
-		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Debug|anycpu.Build.0 = Debug|anycpu
-		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Release|anycpu.ActiveCfg = Release|anycpu
-		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Release|anycpu.Build.0 = Release|anycpu
+		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Debug|anycpu.ActiveCfg = Debug|Any CPU
+		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Debug|anycpu.Build.0 = Debug|Any CPU
+		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Release|anycpu.ActiveCfg = Release|Any CPU
+		{0AA6BE07-E8EB-445C-820A-A8EFE669B432}.Release|anycpu.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2D19ACF-4932-4199-9FAE-8E378DC79118}
 	EndGlobalSection
 EndGlobal
