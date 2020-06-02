@@ -32,11 +32,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomMinefield.cs" />
     <Compile Include="MinefieldClass.cs" />
     <Compile Include="Beginner.cs" />
-    <Compile Include="Intermediate.cs" />
-    <Compile Include="Advanced.cs" />
     <Compile Include="Cell.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
