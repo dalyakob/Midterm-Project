@@ -2,11 +2,14 @@
 
 namespace Minefield
 {
-    public abstract class MinefieldClass
+    public class MinefieldClass
     {
-        public MinefieldClass()
+        public MinefieldClass(int rows, int columns, int bombs)
         {
-            
+            Rows = rows;
+            Columns = columns;
+            Bombs = bombs;
+            GameOver = false; 
         }
 
         //Declaring public variables
@@ -270,20 +273,3 @@ namespace Minefield
 
     }
 }
-/*
-*  ___Requires Different Sizes___
-*  beginner     9x9
-*  intermediate 16x16
-*  advanced     24x24
-*  custom       size x size
-*
-*  
-*  _____Requires Bomb Amount_____
-*  beginner = 10
-*  intermediate = 40
-*  advanced = 99
-*  custom - give this option for all board sizes
-*           and overwrite pre-initialized values
-*           
-*  Generates board with given conditions set it equal to Board 
-*/
