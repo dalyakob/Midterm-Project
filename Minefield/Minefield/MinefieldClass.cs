@@ -115,8 +115,11 @@ namespace Minefield
         {
             if (!_Board[row, col].IsRevealed)
             {
-                Console.Write($"What would you link to do with ({_Board[row, col].GetValue()}): flag or reveal?");
+                Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.flag} \n(2) {Moves.reveal}");
                 var selectedCell = Console.ReadLine().ToLower();
+                var valid = Enum.TryParse<Moves>(Console.ReadLine(), out var move);
+                //loop this for validation
+                
                 if (selectedCell == "flag")
                 {
                     //change value of Board to "!"

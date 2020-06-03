@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Minefield
 {
-    class FlagStatus
+    public enum Moves
     {
+        flag = 1,
+        reveal = 2
     }
 }
