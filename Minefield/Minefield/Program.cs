@@ -17,31 +17,29 @@ namespace Minefield
             //create an object of MinefieldClass with specified rows, columns, and bombs
             //the instance must be called minefield for all four cases 
             
-                minefield.GenerateMinefield();
-                minefield.DisplayBoard();
+            minefield.GenerateMinefield();
+            minefield.DisplayBoard();
 
-                while(!minefield.GameOver)
+            while(!minefield.GameOver)
+            {
+                int row, column;
+                try
                 {
-                    int row, column;
-                    try
-                    {
-                        Console.Write("\n Enter coordinates(ex: 0,0): ");
-                        var input = Console.ReadLine().Split(',');
+                    Console.Write("\n Enter coordinates(ex: 0,0): ");
+                    var input = Console.ReadLine().Split(',');
 
-                        row = int.Parse(input[0]);
-                        column = int.Parse(input[1]);
+                    row = int.Parse(input[0]);
+                    column = int.Parse(input[1]);
 
-                    }
-                    catch (Exception)
-                    {
-                        Console.Write("\n Error, Invalid Coord please try again!");
-                        continue;
-                    }
+                }
+                catch (Exception)
+                {
+                    Console.Write("\n Error, Invalid Coord please try again!");
+                    continue;
+                }
 
-                    minefield.SelectCell(row - 1, column - 1);
-                    minefield.CheckCell(row - 1, column - 1);
-                
-                    minefield.DisplayBoard();
+                minefield.CheckCell(row - 1, column - 1);
+                minefield.DisplayBoard();
             }
         }
     }
