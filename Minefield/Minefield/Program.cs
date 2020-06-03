@@ -37,7 +37,7 @@ namespace Minefield
                     Console.Write("\n Error, Invalid Coord please try again!");
                     continue;
                 }
-
+              
                 minefield.CheckCell(row - 1, column - 1);
                 minefield.DisplayBoard();
             }
