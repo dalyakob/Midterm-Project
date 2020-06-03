@@ -122,11 +122,10 @@ namespace Minefield
                         _Board[row, col].IsRevealed = true;
                         GameOver = true;
                     }
-                    else if (!_Board[row, col].IsFlagged)
+                    else
                     {
                         //set value of cell status to "revealed" 
                         _Board[row, col].IsRevealed = true;
-                        _Board[row, col].IsFlagged = false;
                         RevealEmptyCells(row, col);
                     }
                 }
