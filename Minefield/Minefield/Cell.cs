@@ -9,7 +9,6 @@
         public bool IsBomb { get; set; }
         public bool IsRevealed { get; set; }
         public bool IsFlagged { get; set; }
-        public bool IsEmpty { get; set; }
 
         public Cell()
         {
@@ -18,17 +17,20 @@
             IsBomb = false;
             IsRevealed = false;
             IsFlagged = false;
-            IsEmpty = true;
         }
 
         public char GetValue()
         {
-            if (IsRevealed)
-                return Value;
-            else if (IsFlagged)
+            if (IsFlagged)
                 return '!';
+
+            else if (IsRevealed)
+                return Value;
+
             else
                 return '?';
         }
+
+        
     }
 }

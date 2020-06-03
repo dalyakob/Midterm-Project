@@ -9,7 +9,7 @@ namespace Minefield
             Rows = rows;
             Columns = columns;
             Bombs = bombs;
-            GameOver = false; 
+            GameOver = false;
         }
 
         //Declaring public variables
@@ -61,7 +61,7 @@ namespace Minefield
         public void GenerateMinefield()
         {
             //Generate board size
-            _Board =  new Cell[Rows, Columns];
+            _Board = new Cell[Rows, Columns];
 
             //initialize board 
             for (int i = 0; i < Rows; i++)
@@ -93,34 +93,18 @@ namespace Minefield
 
 
         //I think this checks selected cell for bombs and returns bool value
-        public void CheckCell(int row, int column)
+        public void CheckCell(int row, int col)
         {
-            if (!_Board[row, column].IsFlagged)
-            {
-                _Board[row, column].IsRevealed = true;
 
-                if (_Board[row, column].IsBomb)
-                {
-                    Console.WriteLine("You hit a mine... GAME OVER!!");
-                    //change game status to GameOver
-                    GameOver = true;
-                }
-            }
-            else
-                Console.WriteLine("You cannot reveal a flagged cell unless it is unflagged.");
-            
-            //Continue playing
-        }
-        public void SelectCell(int row, int col)
-        {
             if (!_Board[row, col].IsRevealed)
             {
                 Console.Write($"What would you link to do with ({_Board[row, col].GetValue()}): flag or reveal?");
                 var selectedCell = Console.ReadLine().ToLower();
+
                 if (selectedCell == "flag")
                 {
-                    //change value of Board to "!"
-                    //set value of cell status to "flagged"
+                    //changes value of Board to "!"
+                    //Toggle "flagged" status
                     if (_Board[row, col].IsFlagged)
                         _Board[row, col].IsFlagged = false;
                     else
@@ -128,148 +112,211 @@ namespace Minefield
                 }
                 else if (selectedCell == "reveal")
                 {
-                    //set value of cell status to "revealed" 
-                    _Board[row, col].IsRevealed = true;
-                    _Board[row, col].IsFlagged = false;
+                    if (_Board[row, col].IsFlagged)
+                        Console.WriteLine("This cell is flagged, try again!");
+
+                    else if (_Board[row, col].IsBomb)
+                    {
+                        Console.WriteLine("You hit a mine... GAME OVER!!");
+                        //change game status to GameOver
+                        _Board[row, col].IsRevealed = true;
+                        GameOver = true;
+                    }
+                    else
+                    {
+                        //set value of cell status to "revealed" 
+                        _Board[row, col].IsRevealed = true;
+                        RevealEmptyCells(row, col);
+                    }
                 }
             }
             else
-                Console.WriteLine("That Cell has already been revealed please try again!");
+                Console.WriteLine("This cell is already revealed.");
+
+            //Continue playing
+        }
+       
+
+        public void RevealEmptyCells(int row, int col)
+        {
+            for (int i = row - 1; i <= row + 1; i++)
+            {
+                for (int j = col - 1; j <= col + 1; j++)
+                {
+                    try
+                    {
+                        if (_Board[i, j].Value == ' ' && !_Board[i,j].IsRevealed)
+                        {
+                            _Board[i, j].IsRevealed = true;
+                            RevealEmptyCells(i, j);
+                        }
+                        else if (!_Board[i, j].IsBomb)
+                            _Board[i, j].IsRevealed = true;
+                    }
+                    catch (IndexOutOfRangeException) { }
+                }
+            }
         }
 
-        // row,column              B     R     T     L    BR    TL    TR    BL
-        public void SetAdjacentValues(int row, int column) // 2,2 adjacent cells = 3,2 ; 2,3 ; 1,2 ; 2,1 ; 3,3 ; 1,1 ; 1,3 ; 3,1
+        //                                               row,column              B     R     T     L    BR    TL    TR    BL
+        public void SetAdjacentValues(int row, int col) // 2,2 adjacent cells = 3,2 ; 2,3 ; 1,2 ; 2,1 ; 3,3 ; 1,1 ; 1,3 ; 3,1
         {
+            for (int i = row - 1; i <= row + 1; i++)
+            {
+                for (int j = col - 1; j <= col + 1; j++)
+                {
+                    try
+                    {
+                        if (_Board[i, j].Value == ' ')
+                            _Board[i, j].Value = '1';
+                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+                    }
+                    catch (IndexOutOfRangeException) { }
+                }
+            }
+        }
+    }
+}
+
             //set adjacent values for...
 
             //all rows and columns in the middle of the board
-            if (row > 0 && column > 0 && row < Rows - 1 && column < Columns - 1)
-            {
-                for (int i = row - 1; i <= row + 1; i++)
-                {
-                    for (int j = column - 1; j <= column + 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //All columns on the TOP row except for corners
-            else if (row == 0 && column > 0 && column < Columns - 1)
-            {
-                for (int i = 0; i <= 1; i++)
-                {
-                    for (int j = column - 1; j <= column + 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //All columns on the BOTTOM row except for corners
-            else if (row == Rows - 1 && column > 0 && column < Columns - 1)
-            {
-                for (int i = row - 1; i <= row; i++)
-                {
-                    for (int j = column - 1; j <= column + 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //All rows on the MOST LEFT column except for corners
-            else if (column == 0 && row > 0 && row < Rows - 1)
-            {
-                for (int i = row - 1; i <= row + 1; i++)
-                {
-                    for (int j = column; j <= column + 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //All rows on the MOST RIGHT column except for corners
-            else if (column == Columns - 1 && row > 0 && row < Rows - 1)
-            {
-                for (int i = row - 1; i <= row + 1; i++)
-                {
-                    for (int j = column - 1; j <= column; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //Top Left Corner
-            else if (row == 0 && column == 0)
-            {
-                for (int i = 0; i <= 1; i++)
-                {
-                    for (int j = 0; j <= 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            //Top Right Corner 
-            else if (row == 0 && column == Columns - 1)
-            {
-                for (int i = 0; i <= 1; i++)
-                {
-                    for (int j = column - 1; j <= column; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            // Bottom Left Corner
-            else if (row == Rows - 1 && column == 0)
-            {
-                for (int i = row - 1; i <= row; i++)
-                {
-                    for (int j = column; j <= column + 1; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
-            // Bottom Right Corner
-            else if (row == Rows - 1 && column == Columns - 1)
-            {
-                for (int i = row - 1; i <= row; i++)
-                {
-                    for (int j = column - 1; j <= column; j++)
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                }
-            }
+            //if (row > 0 && col > 0 && row < Rows - 1 && col < Columns - 1)
+            //{
+            //  for (int i = row - 1; i <= row + 1; i++)
+            //  {
+            //        for (int j = col - 1; j <= col + 1; j++)
+            //        {
+                        
+            //            if (_Board[i, j].Value == ' ')
+            //            {
+            //                _Board[i, j].Value = '1';
+            //                _Board[i, j].IsEmpty = false;
+            //            }
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+                        
+            //        }
+            //    }
+            //}
+            ////All columns on the TOP row except for corners
+            //else if (row == 0 && col > 0 && col < Columns - 1)
+            //{
+            //    for (int i = 0; i <= 1; i++)
+            //    {
+            //        for (int j = col - 1; j <= col + 1; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //            {
+            //                _Board[i, j].Value = '1';
+            //                _Board[i, j].IsEmpty = false;
+            //            }
 
-        }
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //            {
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //                _Board[i, j].IsEmpty = false;
+            //            }
+            //        }
+            //    }
+            //}
+            ////All columns on the BOTTOM row except for corners
+            //else if (row == Rows - 1 && col > 0 && col < Columns - 1)
+            //{
+            //    for (int i = row - 1; i <= row; i++)
+            //    {
+            //        for (int j = col - 1; j <= col + 1; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            ////All rows on the MOST LEFT column except for corners
+            //else if (col == 0 && row > 0 && row < Rows - 1)
+            //{
+            //    for (int i = row - 1; i <= row + 1; i++)
+            //    {
+            //        for (int j = col; j <= col + 1; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            ////All rows on the MOST RIGHT column except for corners
+            //else if (col == Columns - 1 && row > 0 && row < Rows - 1)
+            //{
+            //    for (int i = row - 1; i <= row + 1; i++)
+            //    {
+            //        for (int j = col - 1; j <= col; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            ////Top Left Corner
+            //else if (row == 0 && col == 0)
+            //{
+            //    for (int i = 0; i <= 1; i++)
+            //    {
+            //        for (int j = 0; j <= 1; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            ////Top Right Corner 
+            //else if (row == 0 && col == Columns - 1)
+            //{
+            //    for (int i = 0; i <= 1; i++)
+            //    {
+            //        for (int j = col - 1; j <= col; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            //// Bottom Left Corner
+            //else if (row == Rows - 1 && col == 0)
+            //{
+            //    for (int i = row - 1; i <= row; i++)
+            //    {
+            //        for (int j = col; j <= col + 1; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
+            //// Bottom Right Corner
+            //else if (row == Rows - 1 && col == Columns - 1)
+            //{
+            //    for (int i = row - 1; i <= row; i++)
+            //    {
+            //        for (int j = col - 1; j <= col; j++)
+            //        {
+            //            if (_Board[i, j].IsEmpty)
+            //                _Board[i, j].Value = '1';
+            //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+            //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+            //        }
+            //    }
+            //}
 
-    }
-}
