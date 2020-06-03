@@ -17,36 +17,29 @@ namespace Minefield
             //create an object of MinefieldClass with specified rows, columns, and bombs
             //the instance must be called minefield for all four cases 
             
-                minefield.GenerateMinefield();
-                minefield.DisplayBoard();
+            minefield.GenerateMinefield();
+            minefield.DisplayBoard();
 
-                while(!minefield.GameOver)
+            while(!minefield.GameOver)
+            {
+                int row, column;
+                try
                 {
-                    int row, column;
-                    do
-                    {
-                        Console.Write("\n Enter coordinates(ex: 0,0): ");
+                    Console.Write("\n Enter coordinates(ex: 0,0): ");
+                    var input = Console.ReadLine().Split(',');
 
-                    }while (Validate.TryCatch());
+                    row = int.Parse(input[0]);
+                    column = int.Parse(input[1]);
 
-                    try
-                    {
-                        var input = Console.ReadLine().Split(',');
-
-                        row = int.Parse(input[0]);
-                        column = int.Parse(input[1]);
-                        return false;
-                    }
-                    catch (Exception)
-                    {
-                        Console.Write("\n Error, Invalid Coord please try again!");
-                        return true;
-                    }
-
-                    minefield.SelectCell(row - 1, column - 1);
-                    minefield.CheckCell(row - 1, column - 1);
-                
-                    minefield.DisplayBoard();
+                }
+                catch (Exception)
+                {
+                    Console.Write("\n Error, Invalid Coord please try again!");
+                    continue;
+                }
+              
+                minefield.CheckCell(row - 1, column - 1);
+                minefield.DisplayBoard();
             }
         }
     }
