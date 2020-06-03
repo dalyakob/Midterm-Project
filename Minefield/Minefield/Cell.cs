@@ -1,24 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Minefield
+﻿namespace Minefield
 {
     public class Cell
     {
-        public int RowEntry { get; set; }
-        public int ColEntry { get; set; }
-        public bool IsBomb { get; set; }
-        public int AdjacentBombs { get; set; }
-        public bool Uncovered { get; set; }
-        public bool Flagged { get; set; }
+        //required properties
+        public char Value { get; set; }
 
-        public Cell(int rowEntry, int colEntry)
+        //useful properties
+        public bool IsBomb { get; set; }
+        public bool IsRevealed { get; set; }
+        public bool IsFlagged { get; set; }
+        public bool IsEmpty { get; set; }
+
+        public Cell()
         {
-            rowEntry = RowEntry;
-            colEntry = ColEntry;
+            Value = ' ';
+
+            IsBomb = false;
+            IsRevealed = false;
+            IsFlagged = false;
+            IsEmpty = true;
+        }
+
+        public char GetValue()
+        {
+            if (IsRevealed)
+                return Value;
+            else if (IsFlagged)
+                return '!';
+            else
+                return '?';
         }
     }
 }
