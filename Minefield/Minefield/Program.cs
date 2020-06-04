@@ -22,23 +22,14 @@ namespace Minefield
 
             while(!minefield.GameOver)
             {
-                int row, column;
-                try
+                int row, col;
+                do
                 {
                     Console.Write("\n Enter coordinates(ex: 0,0): ");
-                    var input = Console.ReadLine().Split(',');
 
-                    row = int.Parse(input[0]);
-                    column = int.Parse(input[1]);
-
-                }
-                catch (Exception)
-                {
-                    Console.Write("\n Error, Invalid Coord please try again!");
-                    continue;
-                }
+                } while (!Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield));
               
-                minefield.CheckCell(row - 1, column - 1);
+                minefield.CheckCell(row, col);
                 minefield.DisplayBoard();
             }
         }

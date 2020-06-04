@@ -2,7 +2,7 @@
 
 namespace Minefield
 {
-    public class MinefieldClass
+    public class MinefieldClass 
     {
         public MinefieldClass(int rows, int columns, int bombs)
         {
@@ -15,8 +15,8 @@ namespace Minefield
         //Declaring public variables
 
         private Cell[,] _Board;
-        protected int Rows { get; set; }
-        protected int Columns { get; set; }
+        public int Rows { get; set; }
+       public int Columns { get; set; }
         public int Bombs { get; set; }
         public bool GameOver { get; set; }
 

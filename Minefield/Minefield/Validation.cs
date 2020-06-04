@@ -8,42 +8,52 @@ namespace Minefield
 {
     class Validation
     {
-        public static ValidateLevel(string )
-        {
-            do
-            {
-                //insert Adreynne's code here
-            } while (validLevel == false);
-        }
-
-        public static int ValidateCoords(string[] input)
-        {
-            input = Console.ReadLine().Split(',');
-            int x = 0;
-            int y = 0; 
-            bool resultRow = int.TryParse(input[0], out x);
-            bool resultColumn = int.TryParse(input[1], out y);
-            while((resultRow = false) || (resultColumn = false))
-            {
-                Console.Write("Please enter valid coords (x, y): ");
-                input = Console.ReadLine().Split(',');
-             
-            }return x & y;
-
-            //validate to make sure x & y aren't more than the number of rows/columns in game
-        }    
+        //public static ValidateLevel(string )
+        //{
+        //    do
+        //    {
+        //        //insert Adreynne's code here
+        //    } while (validLevel == false);
     
 
-        public static Moves ValidateMove(string response)
+        public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
         {
-            Moves validMove;
+            var coords = input.Split(',');
 
-            while (!Enum.TryParse<Moves>(response, true, out validMove))
+            if (coords.Length != 2)
             {
-                Console.Write("Please enter a valid move: ");
-                response = Console.ReadLine();
+                row = 0;
+                col = 0;
+                Console.WriteLine("Invalid Entry, Please Try Again");
+                return false;
             }
-            return validMove;
-        }    
-    }
-}
+
+            bool x = int.TryParse(coords[0], out row);
+            bool y = int.TryParse(coords[1], out col);
+            row--;
+            col--;
+
+            if (row < 0 || col < 0 || row >= minefield.Rows || col >= minefield.Columns)
+            {
+                Console.Write("Error - Coordinates are out of bounds.  Try again!");
+                return false;
+            }
+
+            return x && y;
+        }
+
+
+
+    //public static Moves ValidateMove(string response)
+    //    {
+    //        Moves validMove;
+
+    //        while (!Enum.TryParse<Moves>(response, true, out validMove))
+    //        {
+    //            Console.Write("Please enter a valid move: ");
+    //            response = Console.ReadLine();
+    //        }
+    //        return validMove;
+    //    }    
+}   }
+
