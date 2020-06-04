@@ -36,6 +36,7 @@
     <Compile Include="MinefieldClass.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Validation.cs" />
+    <Compile Include="Levels.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

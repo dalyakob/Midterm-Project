@@ -8,15 +8,17 @@ namespace Minefield
 {
     class Validation
     {
-        //public static ValidateLevel(string )
-        //{
-        //    do
-        //    {
-        //        //insert Adreynne's code here
-        //    } while (validLevel == false);
+        public static bool ValidateLevel(string response, out Levels level)
+        {
+            var valid = Enum.TryParse<Levels>(response, out level);
 
+            if (!valid)
+                Console.WriteLine("Invalid Entry, Please Try Again!");
 
-        public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
+            return valid;
+        }
+
+            public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
         {
             var coords = input.Split(',');
 
@@ -44,7 +46,12 @@ namespace Minefield
 
         public static bool ValidateMove(string response, out Moves validMove)
         {
-            return Enum.TryParse<Moves>(response, out validMove);
+            var valid = Enum.TryParse<Moves>(response, out validMove);
+
+            if (!valid)
+                Console.WriteLine("Invalid Entry, Please Try Again!");
+
+            return valid;
         }
     }
 }
