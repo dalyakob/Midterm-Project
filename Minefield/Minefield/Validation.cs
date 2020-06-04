@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Minefield
 {
@@ -10,15 +6,15 @@ namespace Minefield
     {
         public static bool ValidateLevel(string response, out Levels level)
         {
-            var valid = Enum.TryParse<Levels>(response, out level);
+            var valid = Enum.TryParse(response, out level);
 
             if (!valid)
-                Console.WriteLine("Invalid Entry, Please Try Again!");
+                Console.WriteLine("\nInvalid Entry, Please Try Again!\n");
 
             return valid;
         }
 
-            public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
+        public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
         {
             var coords = input.Split(',');
 
@@ -26,7 +22,7 @@ namespace Minefield
             {
                 row = 0;
                 col = 0;
-                Console.WriteLine("Invalid Entry, Please Try Again");
+                Console.WriteLine("\nInvalid Entry, Please Try Again!\n");
                 return false;
             }
 
@@ -37,7 +33,7 @@ namespace Minefield
 
             if (row < 0 || col < 0 || row >= minefield.Rows || col >= minefield.Columns)
             {
-                Console.WriteLine("Invalid Entry, Please Try Again");
+                Console.WriteLine("\nInvalid Entry, Please Try Again!\n");
                 return false;
             }
 
@@ -49,7 +45,7 @@ namespace Minefield
             var valid = Enum.TryParse<Moves>(response, out validMove);
 
             if (!valid)
-                Console.WriteLine("Invalid Entry, Please Try Again!");
+                Console.WriteLine("\nInvalid Entry, Please Try Again!\n");
 
             return valid;
         }

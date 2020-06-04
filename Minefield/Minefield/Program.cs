@@ -6,13 +6,10 @@ namespace Minefield
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Minefield!");
+            Console.WriteLine("Welcome to Minefield!\n");
 
-
-            MinefieldClass minefield;
-            
+            bool valid; //used for validation throughout main
             Levels level;
-            bool valid;
             do
             {
                 Console.WriteLine($"Would you like to play " +
@@ -20,8 +17,10 @@ namespace Minefield
                                  $"\n(2){Levels.Intermediate} - 16x16: 40 Bombs" +
                                  $"\n(3){Levels.Advanced} - 24x24: 99 Bombs " +
                                  $"\n(4){Levels.Custom}");
-                valid = Validation.ValidateLevel(Console.ReadLine(), out level);
+                valid = Validation.ValidateLevel(Console.ReadLine().ToLower(), out level);
             } while (!valid);
+
+            MinefieldClass minefield = null;
 
             switch (level)
             {
@@ -38,20 +37,13 @@ namespace Minefield
                     break;
 
                 case Levels.Custom:
-
                     Console.WriteLine("Board Size (ex: 0,0): ");
-
                     minefield = new MinefieldClass(9, 9, 10);
-
                     break;
-                
+
             }
 
-            //adryenne
-            //ask user if he would like to play (1)beginner, (2)intermediate, (3)advaced or (4)custom with an enum
-            //check using an if or switch statement for enum
-            //create an object of MinefieldClass with specified rows, columns, and bombs
-            //the instance must be called minefield for all four cases 
+
 
             minefield.GenerateMinefield();
             minefield.DisplayBoard();
@@ -59,7 +51,6 @@ namespace Minefield
             while(!minefield.GameOver)
             {
                 int row, col;
-                bool valid;
                 do
                 {
                     Console.Write("\n Enter coordinates(ex: 0,0): ");

@@ -149,17 +149,17 @@ namespace Minefield
             {
                 for (int j = col - 1; j <= col + 1; j++)
                 {
-                    try
+                    if (i < 0 || j < 0 || i > Rows - 1 || j > Columns - 1)
+                        continue;
+
+                    if (_Board[i, j].Value == ' ' && !_Board[i, j].IsRevealed)
                     {
-                        if (_Board[i, j].Value == ' ' && !_Board[i,j].IsRevealed)
-                        {
-                            _Board[i, j].IsRevealed = true;
-                            RevealEmptyCells(i, j);
-                        }
-                        else if (!_Board[i, j].IsBomb)
-                            _Board[i, j].IsRevealed = true;
+                        _Board[i, j].IsRevealed = true;
+                        RevealEmptyCells(i, j);
                     }
-                    catch (IndexOutOfRangeException) { }
+                    else if (!_Board[i, j].IsBomb)
+                        _Board[i, j].IsRevealed = true;
+                    
                 }
             }
         }
@@ -171,14 +171,16 @@ namespace Minefield
             {
                 for (int j = col - 1; j <= col + 1; j++)
                 {
-                    try
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                    catch (IndexOutOfRangeException) { }
+                    //set adjacent values for...
+
+                    if (i < 0 || j < 0 || i > Rows - 1 || j > Columns - 1)
+                        continue;
+
+                    if (_Board[i, j].Value == ' ')
+                        _Board[i, j].Value = '1';
+                    else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+                        _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+
                 }
             }
         }
@@ -198,7 +200,6 @@ namespace Minefield
             //            if (_Board[i, j].Value == ' ')
             //            {
             //                _Board[i, j].Value = '1';
-            //                _Board[i, j].IsEmpty = false;
             //            }
             //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
             //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
@@ -213,17 +214,11 @@ namespace Minefield
             //    {
             //        for (int j = col - 1; j <= col + 1; j++)
             //        {
-            //            if (_Board[i, j].IsEmpty)
-            //            {
-            //                _Board[i, j].Value = '1';
-            //                _Board[i, j].IsEmpty = false;
-            //            }
+            //            if (_Board[i, j].value = ' ') 
+            //                _Board[i, j].Value = '1'; 
 
             //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-            //            {
             //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-            //                _Board[i, j].IsEmpty = false;
-            //            }
             //        }
             //    }
             //}
