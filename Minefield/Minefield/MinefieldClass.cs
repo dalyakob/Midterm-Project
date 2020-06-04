@@ -98,10 +98,16 @@ namespace Minefield
 
             if (!_Board[row, col].IsRevealed)
             {
-                Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.flag} \n(2) {Moves.reveal}");
-                var selectedCell = Console.ReadLine().ToLower();
+                Moves move;
+                bool valid;
+                do
+                {
+                    Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.flag} \n(2) {Moves.reveal}");
 
-                if (selectedCell == "flag")
+                    valid = Validation.ValidateMove(Console.ReadLine(), out move);
+                } while (!valid);
+
+                if (move == Moves.flag)
                 {
                     //changes value of Board to "!"
                     //Toggle "flagged" status
@@ -110,7 +116,7 @@ namespace Minefield
                     else
                         _Board[row, col].IsFlagged = true;
                 }
-                else if (selectedCell == "reveal")
+                else if (move == Moves.reveal)
                 {
                     if (_Board[row, col].IsFlagged)
                         Console.WriteLine("This cell is flagged, try again!");

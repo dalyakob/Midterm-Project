@@ -14,7 +14,7 @@ namespace Minefield
         //    {
         //        //insert Adreynne's code here
         //    } while (validLevel == false);
-    
+
 
         public static bool ValidateCoords(string input, out int row, out int col, MinefieldClass minefield)
         {
@@ -35,25 +35,17 @@ namespace Minefield
 
             if (row < 0 || col < 0 || row >= minefield.Rows || col >= minefield.Columns)
             {
-                Console.Write("Error - Coordinates are out of bounds.  Try again!");
+                Console.WriteLine("Invalid Entry, Please Try Again");
                 return false;
             }
 
             return x && y;
         }
 
-
-
-    //public static Moves ValidateMove(string response)
-    //    {
-    //        Moves validMove;
-
-    //        while (!Enum.TryParse<Moves>(response, true, out validMove))
-    //        {
-    //            Console.Write("Please enter a valid move: ");
-    //            response = Console.ReadLine();
-    //        }
-    //        return validMove;
-    //    }    
-}   }
+        public static bool ValidateMove(string response, out Moves validMove)
+        {
+            return Enum.TryParse<Moves>(response, out validMove);
+        }
+    }
+}
 

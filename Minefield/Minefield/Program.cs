@@ -23,11 +23,12 @@ namespace Minefield
             while(!minefield.GameOver)
             {
                 int row, col;
+                bool valid;
                 do
                 {
                     Console.Write("\n Enter coordinates(ex: 0,0): ");
-
-                } while (!Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield));
+                    valid = Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield);
+                } while (!valid);
               
                 minefield.CheckCell(row, col);
                 minefield.DisplayBoard();
