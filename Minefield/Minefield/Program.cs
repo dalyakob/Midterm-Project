@@ -6,39 +6,58 @@ namespace Minefield
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Minefield!");
+            Console.WriteLine("Welcome to Minefield!\n");
+
+            bool valid; //used for validation throughout main
+            Levels level;
+            do
+            {
+                Console.WriteLine($"Would you like to play " +
+                                 $"\n(1){Levels.Beginner} - 9x9: 10 Bombs" +
+                                 $"\n(2){Levels.Intermediate} - 16x16: 40 Bombs" +
+                                 $"\n(3){Levels.Advanced} - 24x24: 99 Bombs " +
+                                 $"\n(4){Levels.Custom}");
+                valid = Validation.ValidateLevel(Console.ReadLine().ToLower(), out level);
+            } while (!valid);
+
+            MinefieldClass minefield = null;
+
+            switch (level)
+            {
+                case Levels.Beginner:
+                    minefield = new MinefieldClass(9, 9, 10);
+                    break;
+
+                case Levels.Intermediate:
+                    minefield = new MinefieldClass(16, 16, 40);
+                    break;
+
+                case Levels.Advanced:
+                    minefield = new MinefieldClass(24, 24, 99);
+                    break;
+
+                case Levels.Custom:
+                    Console.WriteLine("Board Size (ex: 0,0): ");
+                    minefield = new MinefieldClass(9, 9, 10);
+                    break;
+
+            }
 
 
-            MinefieldClass minefield;
-            minefield = new MinefieldClass(9,9,10);
-            //adryenne
-            //ask user if he would like to play (1)beginner, (2)intermediate, (3)advaced or (4)custom with an enum
-            //check using an if or switch statement for enum
-            //create an object of MinefieldClass with specified rows, columns, and bombs
-            //the instance must be called minefield for all four cases 
-            
+
             minefield.GenerateMinefield();
             minefield.DisplayBoard();
 
             while(!minefield.GameOver)
             {
-                int row, column;
-                try
+                int row, col;
+                do
                 {
                     Console.Write("\n Enter coordinates(ex: 0,0): ");
-                    var input = Console.ReadLine().Split(',');
-
-                    row = int.Parse(input[0]);
-                    column = int.Parse(input[1]);
-
-                }
-                catch (Exception)
-                {
-                    Console.Write("\n Error, Invalid Coord please try again!");
-                    continue;
-                }
-
-                minefield.CheckCell(row - 1, column - 1);
+                    valid = Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield);
+                } while (!valid);
+              
+                minefield.CheckCell(row, col);
                 minefield.DisplayBoard();
             }
         }

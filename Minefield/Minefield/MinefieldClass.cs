@@ -2,7 +2,7 @@
 
 namespace Minefield
 {
-    public class MinefieldClass
+    public class MinefieldClass 
     {
         public MinefieldClass(int rows, int columns, int bombs)
         {
@@ -15,8 +15,8 @@ namespace Minefield
         //Declaring public variables
 
         private Cell[,] _Board;
-        protected int Rows { get; set; }
-        protected int Columns { get; set; }
+        public int Rows { get; set; }
+       public int Columns { get; set; }
         public int Bombs { get; set; }
         public bool GameOver { get; set; }
 
@@ -98,10 +98,16 @@ namespace Minefield
 
             if (!_Board[row, col].IsRevealed)
             {
-                Console.Write($"What would you link to do with ({_Board[row, col].GetValue()}): flag or reveal?");
-                var selectedCell = Console.ReadLine().ToLower();
+                Moves move;
+                bool valid;
+                do
+                {
+                    Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.flag} \n(2) {Moves.reveal}");
 
-                if (selectedCell == "flag")
+                    valid = Validation.ValidateMove(Console.ReadLine(), out move);
+                } while (!valid);
+
+                if (move == Moves.flag)
                 {
                     //changes value of Board to "!"
                     //Toggle "flagged" status
@@ -110,7 +116,7 @@ namespace Minefield
                     else
                         _Board[row, col].IsFlagged = true;
                 }
-                else if (selectedCell == "reveal")
+                else if (move == Moves.reveal)
                 {
                     if (_Board[row, col].IsFlagged)
                         Console.WriteLine("This cell is flagged, try again!");
@@ -143,17 +149,17 @@ namespace Minefield
             {
                 for (int j = col - 1; j <= col + 1; j++)
                 {
-                    try
+                    if (i < 0 || j < 0 || i > Rows - 1 || j > Columns - 1)
+                        continue;
+
+                    if (_Board[i, j].Value == ' ' && !_Board[i, j].IsRevealed)
                     {
-                        if (_Board[i, j].Value == ' ' && !_Board[i,j].IsRevealed)
-                        {
-                            _Board[i, j].IsRevealed = true;
-                            RevealEmptyCells(i, j);
-                        }
-                        else if (!_Board[i, j].IsBomb)
-                            _Board[i, j].IsRevealed = true;
+                        _Board[i, j].IsRevealed = true;
+                        RevealEmptyCells(i, j);
                     }
-                    catch (IndexOutOfRangeException) { }
+                    else if (!_Board[i, j].IsBomb)
+                        _Board[i, j].IsRevealed = true;
+                    
                 }
             }
         }
@@ -165,14 +171,16 @@ namespace Minefield
             {
                 for (int j = col - 1; j <= col + 1; j++)
                 {
-                    try
-                    {
-                        if (_Board[i, j].Value == ' ')
-                            _Board[i, j].Value = '1';
-                        else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-                            _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-                    }
-                    catch (IndexOutOfRangeException) { }
+                    //set adjacent values for...
+
+                    if (i < 0 || j < 0 || i > Rows - 1 || j > Columns - 1)
+                        continue;
+
+                    if (_Board[i, j].Value == ' ')
+                        _Board[i, j].Value = '1';
+                    else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
+                        _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
+
                 }
             }
         }
@@ -192,7 +200,6 @@ namespace Minefield
             //            if (_Board[i, j].Value == ' ')
             //            {
             //                _Board[i, j].Value = '1';
-            //                _Board[i, j].IsEmpty = false;
             //            }
             //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
             //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
@@ -207,17 +214,11 @@ namespace Minefield
             //    {
             //        for (int j = col - 1; j <= col + 1; j++)
             //        {
-            //            if (_Board[i, j].IsEmpty)
-            //            {
-            //                _Board[i, j].Value = '1';
-            //                _Board[i, j].IsEmpty = false;
-            //            }
+            //            if (_Board[i, j].value = ' ') 
+            //                _Board[i, j].Value = '1'; 
 
             //            else if (_Board[i, j].Value > (char)48 && _Board[i, j].Value < (char)58)//ASCII
-            //            {
             //                _Board[i, j].Value = (char)(_Board[i, j].Value + 1);
-            //                _Board[i, j].IsEmpty = false;
-            //            }
             //        }
             //    }
             //}
