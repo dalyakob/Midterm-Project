@@ -51,7 +51,7 @@ namespace Minefield
             minefield.GenerateMinefield();
             minefield.DisplayBoard();
 
-            while(!minefield.GameOver)
+            while(!minefield.GameOver || !minefield.WonGame())
             {
                 int row, col;
                 do

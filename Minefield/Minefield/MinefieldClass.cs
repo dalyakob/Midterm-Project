@@ -11,9 +11,27 @@ namespace Minefield
 
         //Declaring public variables
         public bool GameOver { get; set; }
+       
 
         public void GenerateMinefield()
         {
+<<<<<<< HEAD
+=======
+            //Generate board size
+            _Board = new Cell[Rows, Columns];
+
+            //initialize board 
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+
+                    _Board[i, j] = new Cell();
+                }
+            }
+
+
+>>>>>>> d968a33e94af6f992b6f3a8754ccc5f4b04b2910
             //Generate bombs in random unique positions in _HiddenBoard
             var random = new Random();
             for (int i = 0; i < Bombs; i++)
@@ -30,6 +48,24 @@ namespace Minefield
                 else
                     i--;
             }
+        }
+
+        public bool WonGame()
+        {
+            var countsBombs = 0;
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+
+                    if (_Board[i, j].IsBomb && _Board[i, j].IsFlagged)
+                        countsBombs++;
+                    if (countsBombs == Bombs)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
 
