@@ -19,6 +19,7 @@ namespace Minefield
        public int Columns { get; set; }
         public int Bombs { get; set; }
         public bool GameOver { get; set; }
+       
 
         //Displays the board in a fancy way
         public void DisplayBoard()
@@ -73,6 +74,7 @@ namespace Minefield
                 }
             }
 
+
             //Generate bombs in random unique positions in _HiddenBoard
             var random = new Random();
             for (int i = 0; i < Bombs; i++)
@@ -89,6 +91,24 @@ namespace Minefield
                 else
                     i--;
             }
+        }
+
+        public bool WonGame()
+        {
+            var countsBombs = 0;
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+
+                    if (_Board[i, j].IsBomb && _Board[i, j].IsFlagged)
+                        countsBombs++;
+                    if (countsBombs == Bombs)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
 
