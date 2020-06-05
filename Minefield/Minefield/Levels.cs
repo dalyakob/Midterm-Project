@@ -1,5 +1,4 @@
-﻿using System;
-namespace Minefield
+﻿namespace Minefield
 {
     public enum Levels
     {

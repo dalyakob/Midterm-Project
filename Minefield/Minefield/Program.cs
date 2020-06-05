@@ -37,13 +37,16 @@ namespace Minefield
                     break;
 
                 case Levels.Custom:
-                    Console.WriteLine("Board Size (ex: 0,0): ");
-                    minefield = new MinefieldClass(9, 9, 10);
+                    int row, col, bombs;
+                    do
+                    {
+                        Console.Write("\n Enter Rows, Columns, Bombs (ex. 0,0,0): ");
+                        valid = Validation.ValidateCustom(Console.ReadLine().Trim(), out row , out col, out bombs);
+                    } while (!valid);
+                    minefield = new MinefieldClass(row, col, bombs);
                     break;
 
             }
-
-
 
             minefield.GenerateMinefield();
             minefield.DisplayBoard();
@@ -60,6 +63,8 @@ namespace Minefield
                 minefield.CheckCell(row, col);
                 minefield.DisplayBoard();
             }
+            if(minefield.GameOver)
+                Console.WriteLine("\nYou hit a mine... GAME OVER!!");
         }
     }
 }
