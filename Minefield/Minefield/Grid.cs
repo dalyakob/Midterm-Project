@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Minefield
 {
@@ -33,6 +34,7 @@ namespace Minefield
         //Displays the board in a fancy way
         public void DisplayBoard()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("    ");
             for (int i = 0; i < Columns; i++)
             {
@@ -44,7 +46,7 @@ namespace Minefield
             for (int i = 0; i < Columns + 1; i++)
             {
                 if (i >= 1)
-                    Console.Write("____");
+                    Console.Write("----");
                 else
                     Console.Write("    ");
             }
@@ -61,11 +63,19 @@ namespace Minefield
 
                 for (int j = 0; j < Columns; j++)
                 {
-                    Console.Write($" {_Board[i, j].GetValue()} ".PadRight(4, '|'));
+                    Console.Write($" {_Board[i, j].GetValue()} ".PadRight(4, '|'), Color.AliceBlue);
                 }
-
                 Console.WriteLine();
+
             }
+            for (int i = 0; i < Columns + 1; i++)
+            {
+                if (i >= 1)
+                    Console.Write("----");
+                else
+                    Console.Write("    ");
+            }
+            Console.WriteLine();
         }
     }
 }

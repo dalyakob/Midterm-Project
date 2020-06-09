@@ -8,7 +8,8 @@ namespace Minefield
 {
     public enum Moves
     {
-        flag  = 1,
-        reveal
+        reveal = 1,
+        flag 
+
     }
 }

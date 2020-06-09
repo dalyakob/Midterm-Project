@@ -40,14 +40,14 @@ namespace Minefield
             {
                 for (int j = 0; j < Columns; j++)
                 {
-
-                    if (_Board[i, j].IsBomb && _Board[i, j].IsFlagged)
+                    if (!(_Board[i, j].IsRevealed || _Board[i, j].IsFlagged))
+                        return false;
+                    else if (_Board[i, j].IsBomb && _Board[i, j].IsFlagged)
                         countsBombs++;
-                    if (countsBombs == Bombs)
-                        return true;
                 }
             }
-
+            if (countsBombs == Bombs)
+                return true;
             return false;
         }
 
@@ -62,7 +62,7 @@ namespace Minefield
                 bool valid;
                 do
                 {
-                    Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.flag} \n(2) {Moves.reveal}");
+                    Console.WriteLine($"What would you like to do with ({_Board[row, col].GetValue()}): \n(1) {Moves.reveal} \n(2) {Moves.flag}");
 
                     valid = Validation.ValidateMove(Console.ReadLine(), out move);
                 } while (!valid);

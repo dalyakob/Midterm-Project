@@ -50,21 +50,32 @@ namespace Minefield
 
             minefield.GenerateMinefield();
             minefield.DisplayBoard();
-         
-            while(!minefield.GameOver || !minefield.WonGame())
+
+            while (!minefield.GameOver && !minefield.WonGame())
             {
                 int row, col;
+
                 do
                 {
                     Console.Write("\n Enter coordinates(ex: 0,0): ");
                     valid = Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield);
                 } while (!valid);
-              
+
+                Console.Clear();
+
                 minefield.CheckCell(row, col);
                 minefield.DisplayBoard();
+
             }
-            if(minefield.GameOver)
+
+            //Win conditions
+            if (minefield.GameOver)
                 Console.WriteLine("\nYou hit a mine... GAME OVER!!");
+
+            else if (minefield.WonGame())
+                Console.WriteLine("\nYOU WINN!!!");
+            
+                
         }
     }
 }
