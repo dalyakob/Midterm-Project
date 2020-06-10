@@ -1,4 +1,6 @@
-﻿namespace Minefield
+﻿using System;
+
+namespace Minefield
 {
     public class Cell
     {
@@ -10,6 +12,7 @@
         public bool IsRevealed { get; set; }
         public bool IsFlagged { get; set; }
 
+
         public Cell()
         {
             Value = ' ';
@@ -20,7 +23,7 @@
         }
 
         public char GetValue()
-        {
+        {  
             if (IsFlagged)
                 return '!';
 
@@ -29,6 +32,7 @@
 
             else
                 return '?';
+
         }
 
         

@@ -6,17 +6,21 @@ namespace Minefield
     {
         public static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Welcome to Minefield!\n");
+            Console.ResetColor();
 
             bool valid; //used for validation throughout main
             Levels level;
             do
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"Would you like to play " +
                                  $"\n(1){Levels.Beginner} - 9x9: 10 Bombs" +
                                  $"\n(2){Levels.Intermediate} - 16x16: 40 Bombs" +
                                  $"\n(3){Levels.Advanced} - 24x24: 99 Bombs " +
                                  $"\n(4){Levels.Custom}");
+                Console.ResetColor();
                 valid = Validation.ValidateLevel(Console.ReadLine().ToLower(), out level);
             } while (!valid);
 
@@ -48,51 +52,7 @@ namespace Minefield
 
             }
 
-            minefield.GenerateMinefield();
-            minefield.DisplayBoard();
-
-            while (!minefield.GameOver && !minefield.WonGame())
-            {
-                int row, col;
-
-                do
-                {
-                    Console.Write("\n Enter coordinates(ex: 0,0): ");
-                    valid = Validation.ValidateCoords(Console.ReadLine(), out row, out col, minefield);
-                } while (!valid);
-
-                Console.Clear();
-
-                minefield.CheckCell(row, col);
-                minefield.DisplayBoard();
-
-            }
-
-            //Win conditions
-            if (minefield.GameOver)
-                Console.WriteLine("\nYou hit a mine... GAME OVER!!");
-
-            else if (minefield.WonGame())
-                Console.WriteLine("\nYOU WINN!!!");
-            
-                
+            PlayGame.Play(minefield);
         }
     }
 }
-/*
-*  ___Requires Different Sizes___
-*  beginner     9x9
-*  intermediate 16x16
-*  advanced     24x24
-*  custom       size x size
-*
-*  
-*  _____Requires Bomb Amount_____
-*  beginner = 10
-*  intermediate = 40
-*  advanced = 99
-*  custom - give this option for all board sizes
-*           and overwrite pre-initialized values
-*           
-*  Generates board with given conditions  
-*/

@@ -83,6 +83,23 @@ namespace Minefield
             return valid;
         }
 
+        public static bool WonGame(MinefieldClass minefieldClass)
+        {
+            var countsBombs = 0;
+            for (int i = 0; i < minefieldClass.Rows; i++)
+            {
+                for (int j = 0; j < minefieldClass.Columns; j++)
+                {
+                    if (!minefieldClass.Board[i, j].IsRevealed && !minefieldClass.Board[i, j].IsFlagged)
+                        return false;
+                    else if (minefieldClass.Board[i, j].IsBomb && minefieldClass.Board[i, j].IsFlagged)
+                        countsBombs++;
+                }
+            }
+            if (countsBombs == minefieldClass.Bombs)
+                return true;
+            return false;
+        }
     }
 
 }
